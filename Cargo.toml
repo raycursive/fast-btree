@@ -1,0 +1,21 @@
+[package]
+name = "fast-btree"
+version = "0.1.0"
+edition = "2021"
+authors = ["Ray Zhang <m@raycursive.com>"]
+repository = "https://github.com/raycursive/fast-btree"
+description = "A fast B-tree implementation ported from tlx library"
+license = "MIT"
+readme = "README.md"
+
+keywords = ["collection", "tree", "index"]
+categories = ["data-structures"]
+
+[dependencies]
+bitmask-enum = "2.2.3"
+log = {version = "0.4.20", features = ["release_max_level_info"]}
+env_logger = "0.10.1"
+
+[dev-dependencies]
+rusty-hook = "^0.11.2"
+rand = "0.8.5"
