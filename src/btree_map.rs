@@ -59,4 +59,14 @@ where
     }
 }
 
+impl<T: BTreeParams> std::fmt::Debug for BTreeMap<T>
+where
+    [(); T::LEAF_SLOTMAX]: Sized,
+    [(); T::INNER_SLOTMAX + 1]: Sized,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        self._tree.fmt(f)
+    }
+}
+
 pub type DefaultBTreeMap<K, V> = BTreeMap<DefaultBTreeConfig<K, V>>;

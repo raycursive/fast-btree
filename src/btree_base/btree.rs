@@ -1466,7 +1466,6 @@ where
         Ok(())
     }
     fn print_node(
-        &self,
         f: &mut std::fmt::Formatter<'_>,
         node: *mut Node<T>,
         depth: usize,
@@ -1517,12 +1516,9 @@ where
             }
 
             for i in 0..innernode.slotuse {
-                write!(
-                    f,
-                    "({:p}) {:?}",
-                    innernode.get_child(i as usize),
-                    innernode.slotkey[i as usize]
-                )?;
+                write!(f, "({:p}) {:?} ", innernode.get_child(i as usize), unsafe {
+                    innernode.slotkey[i as usize].assume_init_ref()
+                })?;
             }
             write!(
                 f,
@@ -1532,7 +1528,7 @@ where
 
             if recursive {
                 for i in 0..innernode.slotuse + 1 {
-                    self.print_node(f, innernode.get_child(i as usize), depth + 1, recursive)?;
+                    Self::print_node(f, innernode.get_child(i as usize), depth + 1, recursive)?;
                 }
             }
         }
@@ -1549,7 +1545,7 @@ where
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if !self.root_.is_null() {
-            self.print_node(f, self.root_, 0, true)?;
+            Self::print_node(f, self.root_, 0, true)?;
             writeln!(f)?;
             self.print_leaves(f)?;
         }
